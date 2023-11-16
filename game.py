@@ -36,5 +36,23 @@ def main():
       if keys[27]:
           return 1
 
+SURFACE=Surface(size=pygame.Vector2(1280, 720))
+
 if __name__ == "__main__":
   main()
+
+def tosurfaceinit():
+  window = SURFACE
+  audio_man = AudioManager()
+  text = Text2D("Test", position=Vector2(550, 0))
+  floor = Rect2D(1, Vector2(0, 660), (255, 0, 0), Vector2(1280, 720))
+  player = Player(position=Vector2(100, 150))
+  player.init(window)
+  text.init(window)
+  floor.init(window)
+
+def tosurface():
+  SURFACE.frame()
+  keys = SURFACE.frame()
+  if keys[key_to_scancode("q")]:
+    return 1
