@@ -1,7 +1,15 @@
 from DSEngine import *
 class Player(AnimatedSprite2D):
     def __init__(self, position: Vector2):
-        sheet = AnimationSheet(default=Image2D("assets/Test.png"))
+        f1 = Image2D("assets/Slime_sprite1.png")
+        f2 = Image2D("assets/Slime_sprite2.png")
+        f3 = Image2D("assets/Slime_sprite3.png")
+        f4 = Image2D("assets/Slime_sprite4.png")
+        left = Spritesheet(0, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, \
+                           f4, f4, f4, f4, f4, f4, f4, f4, f4, f4)
+        right = Spritesheet(0, f1, f1, f1, f1, f1, f1, f1, f1, f1, f1, \
+                           f2, f2, f2, f2, f2, f2, f2, f2, f2, f2)
+        sheet = AnimationSheet(default=f1, left=left, right=right)
         self.jumps = 0
         super().__init__(sheet, 2, position)
     
@@ -12,6 +20,14 @@ class Player(AnimatedSprite2D):
               vel.y = -45
               self.jumps += 1
         vel.x = (window.pressed_keys[key_to_scancode("d")]-window.pressed_keys[key_to_scancode("a")])*2
+        if vel.x < 0 and not self.playing and self.sheet_name != "left":
+           self.play_sheet("left")
+        else:
+           if not self.playing and self.sheet_name != "right":
+              self.play_sheet("right")
+        # elif vel.x == 0:
+        #    self.stop()
+           
         if not self.is_on_floor():
           self.move(vec=Vector2(0, 1))
           self.move(vec=Vector2(0, 2))
